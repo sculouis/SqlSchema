@@ -4,7 +4,7 @@ from datetime import datetime
 
 xlsObj = ReadXls(filename = '/Users/louischen/Downloads/上課.xlsx')
 titles = xlsObj.fieldTitle('ClassMaster',3)
-# print(titles)
+print(titles)
 
 rows = xlsObj.getSheetData('ClassMaster',4)
 mapRows = []
