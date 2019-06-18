@@ -24,6 +24,17 @@ EXEC sys.sp_addextendedproperty
     ,@level1name = N'${TableName}'
     ,@level2type = N'COLUMN'
     ,@level2name = N'${fields['欄位英文名稱']}'
+    % if fields['列舉'] != None:
+EXEC sys.sp_addextendedproperty
+    @name = N'MS_Enum'
+    ,@value = N'${fields['列舉']}'\
+    ,@level0type = N'SCHEMA'
+    ,@level0name = N'ERP'
+    ,@level1type = N'TABLE'
+    ,@level1name = N'${TableName}'
+    ,@level2type = N'COLUMN'
+    ,@level2name = N'${fields['欄位英文名稱']}'
+    % endif
 % endfor 
 <%def name="genPK(fields)">
     % if fields['資料型態'] == 'uniqueidentifier':

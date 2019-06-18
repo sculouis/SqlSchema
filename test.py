@@ -23,11 +23,13 @@ def genSchema(sheetName,mapRows,templateName):
     sqlObj.Save(fileName)
 
 def main():
+    # Schema檔案存在就刪除
     fileName = "docs/schema.sql"
     if os.path.exists(fileName):
         os.remove(fileName)
     else:
         print("The file does not exist")
+    
     sheetNames = xlsObj.getSheetNames()
     print(sheetNames)
     # 產生資料表結構Sql語法
