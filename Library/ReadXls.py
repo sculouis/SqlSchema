@@ -13,7 +13,7 @@ class ReadXls:
         return rowObj
 
     def getSheetData(self,sheetName,startRow = 3):
-        print("資料表名稱：",sheetName)
+        """取得指定資料表的內容"""
         ws = self.wb[sheetName]
         rows = []
         for row in ws.iter_rows(min_row=startRow, max_col=ws.max_column, max_row=ws.max_row): 

@@ -1,0 +1,5 @@
+et-xmlfile==1.0.1
+jdcal==1.4.1
+Mako==1.0.12
+MarkupSafe==1.1.1
+openpyxl==2.6.2
