@@ -23,6 +23,5 @@ class ReadXls:
         #     for cell in row:
         #         print(cell.value)
 
-    def getAllSheetData(self):
-        for sheetName in self.wb.sheetnames:
-            self.getSheetData(sheetName)
+    def getSheetNames(self):
+        return [sheetName for sheetName in self.wb.sheetnames if sheetName not in ['輸出摘要','Index']]
