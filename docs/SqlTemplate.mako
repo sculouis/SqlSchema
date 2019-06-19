@@ -1,4 +1,4 @@
-Create Table ${TableName}
+Create Table ERP.${TableName}
 (\
 % for fields in mapRows:
     % if fields['Key'] == 'PK':
@@ -24,17 +24,17 @@ EXEC sys.sp_addextendedproperty
     ,@level1name = N'${TableName}'
     ,@level2type = N'COLUMN'
     ,@level2name = N'${fields['欄位英文名稱']}'
-    % if fields['列舉'] != None:
-EXEC sys.sp_addextendedproperty
-    @name = N'MS_Enum'
-    ,@value = N'${fields['列舉']}'\
-    ,@level0type = N'SCHEMA'
-    ,@level0name = N'ERP'
-    ,@level1type = N'TABLE'
-    ,@level1name = N'${TableName}'
-    ,@level2type = N'COLUMN'
-    ,@level2name = N'${fields['欄位英文名稱']}'
-    % endif
+##     % if fields['列舉'] != None:
+## EXEC sys.sp_addextendedproperty
+##     @name = N'MS_Enum'
+##     ,@value = N'${fields['列舉']}'\
+##     ,@level0type = N'SCHEMA'
+##     ,@level0name = N'ERP'
+##     ,@level1type = N'TABLE'
+##     ,@level1name = N'${TableName}'
+##     ,@level2type = N'COLUMN'
+##     ,@level2name = N'${fields['欄位英文名稱']}'
+##     % endif
 % endfor 
 <%def name="genPK(fields)">
     % if fields['資料型態'] == 'uniqueidentifier':
@@ -45,16 +45,16 @@ EXEC sys.sp_addextendedproperty
     CONSTRAINT PK_${TableName} PRIMARY KEY CLUSTERED(${fields['欄位英文名稱']}),\
 </%def>
 <%def name="genFieldHaveLen(fields)">
-    % if fields['CanNull'] == 'Y':
-    ${fields['欄位英文名稱']} ${fields['資料型態']}(${fields['長度']}) Null,\
-    % else:
+    % if fields['Null'] == 'NotNull':
     ${fields['欄位英文名稱']} ${fields['資料型態']}(${fields['長度']}),\
+    % else:
+    ${fields['欄位英文名稱']} ${fields['資料型態']}(${fields['長度']}) Null,\
     % endif
 </%def>
 <%def name="genField(fields)">
-    % if fields['CanNull'] == 'Y':
-    ${fields['欄位英文名稱']} ${fields['資料型態']} Null,\
-    % else:
+    % if fields['Null'] == 'NotNull':
     ${fields['欄位英文名稱']} ${fields['資料型態']},\
+    % else:
+    ${fields['欄位英文名稱']} ${fields['資料型態']} Null,\
     % endif
 </%def>

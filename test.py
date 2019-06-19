@@ -3,7 +3,7 @@ from Library.SqlSyntax import SqlSyntax
 from datetime import datetime
 import os
 
-xlsObj = ReadXls(filename = '/Users/louischen/Downloads/上課.xlsx')
+xlsObj = ReadXls(filename = '/Users/louischen/Downloads/費用模組_v1.0.xlsx')
 
 def getRows(sheetName,titles):
     rows = xlsObj.getSheetData(sheetName,4)
@@ -30,7 +30,7 @@ def main():
     else:
         print("The file does not exist")
     
-    sheetNames = xlsObj.getSheetNames()
+    sheetNames = xlsObj.getSheetNames(NotIn = ['輸出摘要','Index','AllFields','非請購','員工報支'])
     print(sheetNames)
     # 產生資料表結構Sql語法
     for sheetName in sheetNames:
