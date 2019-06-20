@@ -37,7 +37,7 @@ def main():
         #取得資料表欄位名稱
         titles = xlsObj.fieldTitle(sheetName,3)
         # print(titles)
-        #取得資料表欄位定義
+        #取得資料表欄位定義內
         mapRows = getRows(sheetName,titles)
         # print(mapRows)
         #產生Sql語法
