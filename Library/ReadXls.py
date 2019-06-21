@@ -10,18 +10,18 @@ class ReadXls:
         ws = self.wb[sheetName]
         rowObj = []
         for row in ws.iter_rows(min_row=rowPoisition, max_col=ws.max_column, max_row=rowPoisition): 
-            rowObj = ([row[i].value for i in range(ws.max_column)])
+            rowObj = ([row[i].value for i in range(ws.max_column) if row[i].value != None])
         return rowObj
 
-    def getSheetData(self,sheetName,startRow = 3):
+    def getSheetData(self,sheetName,startRow = 3,endcol = 0):
         """取得指定資料表的內容"""
         ws = self.wb[sheetName]
         rows = []
-        for row in ws.iter_rows(min_row=startRow, max_col=ws.max_column, max_row=ws.max_row): 
+        for row in ws.iter_rows(min_row=startRow, max_col=endcol, max_row=ws.max_row): 
             if row[0].value == None:
                 print('this row is None')
             else:
-                rows.append([row[i] for i in range(ws.max_column)])
+                rows.append([row[i] for i in range(endcol)])
         return rows
         # for row in rows: 
         #     for cell in row:

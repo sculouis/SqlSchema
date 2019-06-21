@@ -2,27 +2,29 @@ from Library.ReadXls import ReadXls
 from Library.SqlSyntax import SqlSyntax
 from datetime import datetime
 import os
+from collections import namedtuple
 
 xlsObj = ReadXls(filename = '/Users/louischen/Downloads/費用模組_v1.0.xlsx')
 
-def getRows(sheetName,titles):
-    rows = xlsObj.getSheetData(sheetName,4)
+def GetRows(sheetName,titles):    
+    colLen = len(titles)
+    rows = xlsObj.getSheetData(sheetName,4,colLen)
     mapRows = []
     for row in rows: 
-        rowmap = {}
-        for index in range(len(row)):
-            rowmap[titles[index]] = row[index].value
-        mapRows.append(rowmap)    
+        Fields=namedtuple("Fields",titles)
+        myList = [field.value for field in row]
+        fields = Fields(*myList)
+        mapRows.append(fields)
     return mapRows
 
-def genSchema(sheetName,mapRows,templateName):
+def GenSchema(sheetName,mapRows,templateName):
     sqlObj = SqlSyntax(TableName = sheetName)
     sqlObj.GetSqlSyntax(templateName, mapRows)
     now = datetime.now()
     fileName = "docs/schema.sql"
     sqlObj.Save(fileName)
 
-def main():
+def Main():
     # Schema檔案存在就刪除
     fileName = "docs/schema.sql"
     if os.path.exists(fileName):
@@ -38,24 +40,23 @@ def main():
         titles = xlsObj.fieldTitle(sheetName,3)
         # print(titles)
         #取得資料表欄位定義內
-        mapRows = getRows(sheetName,titles)
+        mapRows = GetRows(sheetName,titles)
         # print(mapRows)
         #產生Sql語法
         templateName = 'SqlTemplate.mako'
-        genSchema(sheetName,mapRows,templateName)
-    
+        GenSchema(sheetName,mapRows,templateName)
     # 產生資料表外來鍵Sql語法
     for sheetName in sheetNames:
         #取得資料表欄位名稱
         titles = xlsObj.fieldTitle(sheetName,3)
         # print(titles)
         #取得資料表欄位定義
-        mapRows = getRows(sheetName,titles)
+        mapRows = GetRows(sheetName,titles)
         # print(mapRows)
         #產生Sql語法
         templateName = 'FKTemplate.mako'
-        genSchema(sheetName,mapRows,templateName)
+        GenSchema(sheetName,mapRows,templateName)
 
 
 if  __name__ == '__main__':
-    main()
+    Main()
