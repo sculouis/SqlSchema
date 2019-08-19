@@ -4,7 +4,7 @@ from datetime import datetime
 import os
 from collections import namedtuple
 
-xlsObj = ReadXls(filename = '/Users/louischen/Downloads/費用模組_v1.0.xlsx')
+xlsObj = ReadXls(filename = 'templates/費用模組_v1.0.xlsx')
 
 def GetRows(sheetName,titles):    
     colLen = len(titles)
