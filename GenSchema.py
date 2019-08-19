@@ -46,16 +46,16 @@ def Main():
         templateName = 'SqlTemplate.mako'
         GenSchema(sheetName,mapRows,templateName)
     # 產生資料表外來鍵Sql語法
-    for sheetName in sheetNames:
-        #取得資料表欄位名稱
-        titles = xlsObj.fieldTitle(sheetName,3)
-        # print(titles)
-        #取得資料表欄位定義
-        mapRows = GetRows(sheetName,titles)
-        # print(mapRows)
-        #產生Sql語法
-        templateName = 'FKTemplate.mako'
-        GenSchema(sheetName,mapRows,templateName)
+    # for sheetName in sheetNames:
+    #     #取得資料表欄位名稱
+    #     titles = xlsObj.fieldTitle(sheetName,3)
+    #     # print(titles)
+    #     #取得資料表欄位定義
+    #     mapRows = GetRows(sheetName,titles)
+    #     # print(mapRows)
+    #     #產生Sql語法
+    #     templateName = 'FKTemplate.mako'
+    #     GenSchema(sheetName,mapRows,templateName)
 
 
 if  __name__ == '__main__':

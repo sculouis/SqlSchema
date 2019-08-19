@@ -7,7 +7,6 @@ namespace MyNameSpace
         /// <summary>
         /// ${row['fieldDesc'].decode()}
         /// </summary>
-        /// <value>The identifier.</value>
         public ${row['fieldType']} ${row['columnName']} { get; set; }
         
         % endfor
