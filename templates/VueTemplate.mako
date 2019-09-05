@@ -5,7 +5,7 @@
 % for row in box.Datas:
         <div class="row">\
         % for fields in row[1]:
-        ${genField(fields.寬度,fields.標題名稱,fields.欄位類型,fields.是否必輸,fields.欄位名稱)} \
+        ${genField(fields.寬度,fields.標題名稱,fields.欄位類型,fields.是否必輸,fields.欄位名稱,fields.提示說明,fields.備註)} \
         % endfor
 
         </div>
@@ -84,21 +84,38 @@ export default {
         }
         }
 </script>
-<%def name="genField(collen,title,type,required,fieldName)">
+<%def name="genField(collen,title,type,required,fieldName,placeholder,remark)">
             <div class="col-sm-${collen} content-box">
                 <div class="w100 title">
                     <b class="float-left">${title}</b>
                     % if required == 'Y':
                     <b class="required-icon">*</b>
                     % endif
-                </div>
-                    % if type == "Popup":
-                    <${type} bgColor="btn-02-blue"  iconName="icon-search"  remodalId="${fieldName}" title="彈出視窗" buttonName="按鈕"></${type}>
-                    % else:
-                    <${type} v-model="${fieldName}"></${type}>
-                    % endif
+                </div>\
+                    ${genTagDesc(collen,title,type,required,fieldName,placeholder,remark)}\
             </div>\
-</%def>
+</%def>\
+<%def name="genTagDesc(collen,title,type,required,fieldName,placeholder,remark)">
+        % if type == "Popup":
+                <${type} bgColor="btn-02-blue"  iconName="icon-search"  remodalId="${fieldName}" title="彈出視窗" buttonName="按鈕"></${type}>
+        % elif type== "CheckBox":
+                <${type} v-model="${fieldName}" title="${title}"></${type}>
+        % elif type== "DisableText":
+                <${type} v-model="${fieldName}" placeHolder="${placeholder}"></${type}>
+        % elif type== "TextString":
+                <${type} v-model="${fieldName}" placeHolder="${placeholder}"></${type}>
+        % elif type== "ButtonAction":
+        % for button in remark.split(","):
+                % if  button.split(":")[1] == "btn-02-blue":
+                    <${type} bgColor="${button.split(":")[1]}"  iconName="icon-search">${button.split(":")[0]}</${type}>
+                % else:
+                    <${type} bgColor="${button.split(":")[1]}"  iconName="glyphicon glyphicon-remove">${button.split(":")[0]}</${type}>
+                % endif
+        % endfor
+        %else:
+                <${type} v-model="${fieldName}"></${type}>
+        % endif
+</%def>\
 <%def name="genDataModel(fieldName)">
                         ${fieldName}:"",\
 </%def>
