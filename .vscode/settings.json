@@ -1,3 +1,5 @@
 {
-    "python.pythonPath": "/home/pi/WorkSpace/SqlSchema/bin/python"
+    "python.pythonPath": "/home/pi/WorkSpace/SqlSchema/bin/python",
+    "terminal.integrated.cursorStyle": "line",
+    "terminal.integrated.fontSize": 12
 }

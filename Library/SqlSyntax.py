@@ -24,6 +24,14 @@ class SqlSyntax:
         mytemplate = self.mylookup.get_template(tempFileName)
         self.SyntaxResult = mytemplate.render(TableName = self.TableName,mapRows=data)
 
+    def GetVueFile(self,tempFileName = "VueTemplate.mako",data=[]):
+        """產生Vue檔案
+            設定template的檔案 
+           設定寫入版型的變數 
+        """
+        mytemplate = self.mylookup.get_template(tempFileName)
+        self.SyntaxResult = mytemplate.render(TableName = self.TableName,mapRows=data)
+        return "".join(self.SyntaxResult.split())
 
     def Save(self,fileName = "docs/result.txt"):
         """設定存檔的檔名"""

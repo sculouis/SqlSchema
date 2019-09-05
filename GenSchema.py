@@ -6,17 +6,6 @@ from collections import namedtuple
 
 xlsObj = ReadXls(filename = 'templates/費用模組_v1.0.xlsx')
 
-def GetRows(sheetName,titles):    
-    colLen = len(titles)
-    rows = xlsObj.getSheetData(sheetName,4,colLen)
-    mapRows = []
-    for row in rows: 
-        Fields=namedtuple("Fields",titles)
-        myList = [field.value for field in row]
-        fields = Fields(*myList)
-        mapRows.append(fields)
-    return mapRows
-
 def GenSchema(sheetName,mapRows,templateName):
     sqlObj = SqlSyntax(TableName = sheetName)
     sqlObj.GetSqlSyntax(templateName, mapRows)
@@ -40,7 +29,7 @@ def Main():
         titles = xlsObj.fieldTitle(sheetName,3)
         # print(titles)
         #取得資料表欄位定義內
-        mapRows = GetRows(sheetName,titles)
+        mapRows = xlsObj.GetRows(sheetName,titles)
         # print(mapRows)
         #產生Sql語法
         templateName = 'SqlTemplate.mako'

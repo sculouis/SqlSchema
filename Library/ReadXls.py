@@ -1,4 +1,5 @@
 from openpyxl import load_workbook
+from collections import namedtuple
 
 class ReadXls:
     def __init__(self,filename):
@@ -28,4 +29,16 @@ class ReadXls:
         #         print(cell.value)
 
     def getSheetNames(self,NotIn = [] ):
+        """取得工作表名稱"""
         return [sheetName for sheetName in self.wb.sheetnames if sheetName not in NotIn]
+
+    def GetRows(self,sheetName,titles,startRow = 4):    
+        colLen = len(titles)
+        rows = self.getSheetData(sheetName,startRow,colLen)
+        mapRows = []
+        for row in rows: 
+            Fields=namedtuple("Fields",titles)
+            myList = [field.value for field in row]
+            fields = Fields(*myList)
+            mapRows.append(fields)
+        return mapRows
