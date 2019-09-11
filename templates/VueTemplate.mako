@@ -3,46 +3,7 @@
 % for box in Boxs:
 % if "table_" in box.BoxName:
     <Box title="${box.BoxName}">
-    <TableBase v-bind:tableData="noDelData">
-% for row in box.Datas:
-        % if row[0] ==  1:
-        <template slot="FirstHead">
-            <th class="th-title w5">no</th>
-        % for fields in row[1]:
-            <th class="th-title w15">${fields.標題名稱}</th>
-        % endfor   
-        </template>
-        <template v-slot:FirstDetail = "{ data,index }">
-            <td v-text="index + 1" rowspan="200"></td>
-        % for fields in row[1]:
-            <td> ${genTagDesc(fields.寬度,fields.標題名稱,fields.欄位類型,fields.是否必輸,fields.欄位名稱,fields.提示說明,fields.備註)}</td>
-        % endfor  
-        </template>
-        % elif row[0] ==  2:
-        <template v-slot:SecondDetailHead>
-        % for fields in row[1]:
-            <th class="th-title-1 w15">${fields.標題名稱}</th>
-        % endfor    
-        </template>
-        <template v-slot:SecondDetail= "{ data }">
-        % for fields in row[1]:
-                <td>${genTagDesc(fields.寬度,fields.標題名稱,fields.欄位類型,fields.是否必輸,fields.欄位名稱,fields.提示說明,fields.備註)}</td>
-        % endfor
-        </template>
-        % elif row[0] ==  3:
-        <template v-slot:ThirdHead="{ data }">
-        % for fields in row[1]:
-            <th class="th-title-1">${fields.標題名稱}</th>
-        % endfor    
-        </template>
-        <template v-slot:ThirdDetail="{ subdata,index }">
-        % for fields in row[1]:
-                <td>${genTagDesc(fields.寬度,fields.標題名稱,fields.欄位類型,fields.是否必輸,fields.欄位名稱,fields.提示說明,fields.備註)}</td>
-        % endfor
-        </template>
-        % endif
-        % endfor
-        </TableBase>
+        ${genTable(box)}
     </Box>
 % else:
     <Box title="${box.BoxName}">
@@ -51,7 +12,6 @@
         % for fields in row[1]:
         ${genField(fields.寬度,fields.標題名稱,fields.欄位類型,fields.是否必輸,fields.欄位名稱,fields.提示說明,fields.備註)} \
         % endfor
-
         </div>
 % endfor
     </Box>
@@ -59,7 +19,6 @@
 % endfor
 </SectionEdit>
 </template>
-
 <script>
     import SectionEdit from '../components/SectionEdit.vue'
     import Box from '../components/Box.vue'
@@ -196,4 +155,68 @@ export default {
 </%def>\
 <%def name="genDataModel(fieldName)">
                         ${fieldName}:"",\
+</%def>
+<%def name="genTableTag(collen,title,type,required,fieldName,placeholder,remark)">
+        % if type== "CheckBox":
+                <${type} v-model="data.${fieldName}" title="${title}"></${type}>
+        % elif type== "DisableText":
+                <${type} v-model="data.${fieldName}" placeHolder="${placeholder}"></${type}>
+        % elif type== "TextString":
+                <${type} v-model="data.${fieldName}" placeHolder="${placeholder}"></${type}>
+        %else:
+                <${type} v-model="data.${fieldName}"></${type}>
+        % endif
+</%def>\
+<%def name="genSubTableTag(collen,title,type,required,fieldName,placeholder,remark)">
+        % if type== "CheckBox":
+                <${type} v-model="subdata.${fieldName}" title="${title}"></${type}>
+        % elif type== "DisableText":
+                <${type} v-model="subdata.${fieldName}" placeHolder="${placeholder}"></${type}>
+        % elif type== "TextString":
+                <${type} v-model="subdata.${fieldName}" placeHolder="${placeholder}"></${type}>
+        %else:
+                <${type} v-model="subdata.${fieldName}"></${type}>
+        % endif
+</%def>\
+<%def name="genTable(box)">
+    <TableBase v-bind:tableData="noDelData">
+% for row in box.Datas:
+        % if row[0] ==  1:
+        <template slot="FirstHead">
+            <th class="th-title w5">no</th>
+        % for fields in row[1]:
+            <th class="th-title w15">${fields.標題名稱}</th>
+        % endfor   
+        </template>
+        <template v-slot:FirstDetail = "{ data,index }">
+            <td v-text="index + 1" rowspan="200"></td>
+        % for fields in row[1]:
+            <td> ${genTableTag(fields.寬度,fields.標題名稱,fields.欄位類型,fields.是否必輸,fields.欄位名稱,fields.提示說明,fields.備註)}</td>
+        % endfor  
+        </template>
+        % elif row[0] ==  2:
+        <template v-slot:SecondDetailHead>
+        % for fields in row[1]:
+            <th class="th-title-1 w15">${fields.標題名稱}</th>
+        % endfor    
+        </template>
+        <template v-slot:SecondDetail= "{ data }">
+        % for fields in row[1]:
+                <td>${genTableTag(fields.寬度,fields.標題名稱,fields.欄位類型,fields.是否必輸,fields.欄位名稱,fields.提示說明,fields.備註)}</td>
+        % endfor
+        </template>
+        % elif row[0] ==  3:
+        <template v-slot:ThirdHead="{ data }">
+        % for fields in row[1]:
+            <th class="th-title-1">${fields.標題名稱}</th>
+        % endfor    
+        </template>
+        <template v-slot:ThirdDetail="{ subdata,index }">
+        % for fields in row[1]:
+                <td>${genSubTableTag(fields.寬度,fields.標題名稱,fields.欄位類型,fields.是否必輸,fields.欄位名稱,fields.提示說明,fields.備註)}</td>
+        % endfor
+        </template>
+        % endif
+        % endfor
+        </TableBase>
 </%def>
