@@ -68,10 +68,22 @@ def GenTableJson(sheetNames):
         titles = xlsObj.fieldTitle(sheetName,1)
         #取得資料列內容
         Rows = xlsObj.GetRows(sheetName,titles,2)
-        for fields in Rows:
-            jsonStr += f'"{fields.欄位名稱}":"",'
-            print(f'欄位名稱：{fields.欄位名稱}')
-    jsonStr = jsonStr[0:len(jsonStr) - 1]
+        # Group By 列號 Field
+        Rows.sort(key=lambda d : d.列號)
+        mapRows = [(key, list(groups)) for key, groups in groupby(Rows, lambda d : d.列號)]
+        for fields in mapRows:
+            if fields[0] == 1 or  fields[0] == 2:
+                for field in fields[1]:
+                    jsonStr += f'"{field.欄位名稱}":"",'
+                    print(f'欄位名稱：{field.欄位名稱}')
+            else:
+                jsonStr += '"subDatas":[{'
+                for field in fields[1]:
+                    jsonStr += f'"{field.欄位名稱}":"",'
+                    print(f'欄位名稱：{field.欄位名稱}')
+                jsonStr = jsonStr[0:len(jsonStr) - 1]
+                jsonStr += '}]'
+    jsonStr += ',"isdelete": 0,"isDetailOpen": true,"isSubOpen":false'
     jsonStr += '}'
     print(jsonStr)
     fileName = "/home/pi/WorkSpace/TestBoostrap3/src/data/codegentable.json"
