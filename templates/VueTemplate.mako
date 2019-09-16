@@ -35,6 +35,7 @@
     import { required } from 'vuelidate/lib/validators'
     import { mapGetters, mapMutations } from 'vuex'
     import mainData from '../data/codegen.json'
+    import tableData from '../data/codegentable.json'
 
 export default {
             components: {
@@ -74,32 +75,6 @@ export default {
         },
         mounted(){
             console.log(this.$v.$reset())
-            var tableData = [{\
-        % for box in Boxs:
-            % for row in box.Datas:
-                % if "table_"  in box.BoxName:
-                    % if row[0] == 3:
-                            subDatas:[{
-                            % for fields in row[1]:
-                            % if fields.欄位類型 != "ButtonAction":
-                                ${genDataModel(fields.欄位名稱)}\
-                            % endif   
-                    % endfor
-                             } ],
-                    % else:
-                    % for fields in row[1]:
-                            % if fields.欄位類型 != "ButtonAction":
-                                ${genDataModel(fields.欄位名稱)}\
-                            % endif   
-                    % endfor
-                % endif
-                % endif
-            % endfor
-        % endfor 
-            isdelete:0,
-            isDetailOpen: false,
-            isSubOpen: false
-            }]
             this.initData(tableData)    
     },
     computed:{...mapGetters('table',['noDelData'])},
