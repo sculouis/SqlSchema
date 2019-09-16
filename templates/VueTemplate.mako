@@ -34,6 +34,7 @@
     import TableBase from '../components/TableBase.vue'
     import { required } from 'vuelidate/lib/validators'
     import { mapGetters, mapMutations } from 'vuex'
+    import mainData from '../data/codegen.json'
 
 export default {
             components: {
@@ -51,19 +52,7 @@ export default {
             TableBase
         },
         data() {
-            return {\
-        % for box in Boxs:
-            % for row in box.Datas:
-                % if "table_" not in box.BoxName:
-                    % for fields in row[1]:
-                            % if fields.欄位類型 != "ButtonAction":
-                                ${genDataModel(fields.欄位名稱)}\
-                            % endif   
-                    % endfor
-                % endif
-            % endfor
-        % endfor
-            }
+            return mainData
         },
         validations:{
                 val:{
